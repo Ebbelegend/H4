@@ -1,37 +1,42 @@
+
+function insert(bst, item) {
+    const nothing = "";
+    return is_null(bst)
+           ? make_tree(item, null, null)
+           : item === entry(bst)
+           ? bst
+           : item < entry(bst)
+           ? make_tree(entry(bst),
+                       insert(left_branch(bst), item),
+                       right_branch(bst))
+           : 
+             make_tree(entry(bst),
+                       left_branch(bst),
+                       insert(right_branch(bst), item));
+}
+
+// Copy your binary_search_tree_to_string function here from Task 1.
 function binary_search_tree_to_string(bst) {
-    const empty = "; ";
+    const semicolon = "; ";
+    const nothing = "";
     function is_element_true(x, set) {
     return is_null(set) 
-           ? false
-           : x === entry(set) 
-           ? true
-           : x < entry(set)
-           ? is_element_true(x, left_branch(set))
-           :is_element_true(x, right_branch(set));
+           ? x
+           : is_element_true(entry(set), left_branch(set)) + semicolon + is_element_true(x, right_branch(set));
     }
-    function addelement(x, bst) {
-        return is_element_true(x, bst)
-        ? x + empty
-        : null;
-    }
-    return addelement(entry(left_branch(left_branch(bst))), bst) +
-    addelement(entry(left_branch(bst)), bst) + addelement(entry(bst), bst) +
-    addelement(entry(left_branch(right_branch(bst))), bst) +
-    addelement(entry(right_branch(bst)), bst);
+    return is_element_true(nothing, bst);
 }
-const h = make_tree("h", make_empty_tree(), make_empty_tree());
-const a = make_tree("a", make_empty_tree(), make_empty_tree());
-const n = make_tree("n", h, make_empty_tree());
-const c = make_tree("c", a, make_empty_tree());
-const test_bst = make_tree("e", c, n);
-
 // Test
-binary_search_tree_to_string(test_bst);
-binary_search_tree_to_string(pkd_names);
 
+//binary_search_tree_to_string(insert(make_empty_tree(), "x"));
+// Should produce "x; "
 
+//const bst = accumulate((item, bst) => insert(bst, item),
+                       //make_empty_tree(),
+                       //list("g", "a", "r", "x", "p"));
+//binary_search_tree_to_string(bst);
+// Should produce "a; g; p; r; x; "
 
-
-
-
-
+//const pkd_names_with_aaaaron =  insert(pkd_names, "AAAARON NORAAAA");
+//binary_search_tree_to_string(pkd_names_with_aaaaron);
+// Should produce "AAAARON NORAAAA; ..."
